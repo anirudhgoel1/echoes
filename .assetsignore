@@ -1,0 +1,10 @@
+.git/
+.wrangler/
+node_modules/
+.env
+.env.local
+.gitignore
+.assetsignore
+wrangler.toml
+PLAYLIST.md
+*.log
