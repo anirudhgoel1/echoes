@@ -28,6 +28,114 @@ a{color:inherit;text-decoration:none}
 button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 ::selection{background:var(--green);color:#000}
 
+/* =============================================================
+   DECADE OVERLAY · the Instagram money shot
+   Fires when crossing a decade boundary. ~1.5s full-screen flash.
+   ============================================================= */
+:root { --decade-accent: var(--green-bright); }
+.decade-overlay{
+  position:fixed; inset:0; pointer-events:none; z-index:200;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  background:rgba(10,10,10,0); opacity:0;
+  transition:opacity .35s var(--ease), background .35s var(--ease);
+}
+.decade-overlay.show{ opacity:1; background:rgba(10,10,10,0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+.do-pre{
+  font-family:var(--mono); color:var(--decade-accent);
+  font-size:13px; letter-spacing:.45em; text-transform:uppercase;
+  opacity:0; transform: translateY(20px);
+}
+.decade-overlay.show .do-pre{ animation: doPreFade 1.5s var(--ease) both; }
+.do-decade{
+  font-family:var(--serif); font-style:italic; font-weight:500;
+  font-size:clamp(80px, 18vw, 220px); line-height:.92; letter-spacing:-.04em;
+  background: linear-gradient(180deg, #f0ece4 0%, var(--decade-accent) 100%);
+  -webkit-background-clip:text; background-clip:text; color: transparent;
+  margin:24px 0 14px; opacity:0; transform: scale(0.85) translateY(40px);
+  text-shadow: 0 0 60px var(--decade-accent);
+}
+.decade-overlay.show .do-decade{ animation: doDecadePop 1.5s var(--ease) both .12s; }
+.do-post{
+  font-family:var(--mono); color:rgba(255,255,255,.4);
+  font-size:11px; letter-spacing:.4em; text-transform:uppercase;
+  opacity:0;
+}
+.decade-overlay.show .do-post{ animation: doPostFade 1.5s var(--ease) both .55s; }
+@keyframes doPreFade {
+  0%   { opacity:0; transform: translateY(20px); }
+  18%  { opacity:1; transform: translateY(0); }
+  82%  { opacity:1; transform: translateY(0); }
+  100% { opacity:0; transform: translateY(-10px); }
+}
+@keyframes doDecadePop {
+  0%   { opacity:0; transform: scale(0.85) translateY(40px); }
+  20%  { opacity:1; transform: scale(1.05) translateY(0); }
+  60%  { opacity:1; transform: scale(1) translateY(0); }
+  100% { opacity:0; transform: scale(1) translateY(-20px); }
+}
+@keyframes doPostFade {
+  0%   { opacity:0; transform: translateY(10px); }
+  35%  { opacity:1; transform: translateY(0); }
+  80%  { opacity:1; transform: translateY(0); }
+  100% { opacity:0; transform: translateY(0); }
+}
+
+/* =============================================================
+   DECADE ACCENT WASH · subtle color shift per decade
+   ============================================================= */
+.nav a:hover,
+.nav-random:hover { color: var(--decade-accent); }
+.brand:hover .brand-word { color: var(--decade-accent); transition: color .35s; }
+.ht-year { transition: color .4s var(--ease); }
+body.is-touring .ht-year { color: var(--decade-accent); }
+body.is-touring .scrubber .st-handle { background: var(--decade-accent); box-shadow: 0 0 20px var(--decade-accent); }
+
+/* =============================================================
+   TOUR BUTTON · the wow-mode trigger
+   ============================================================= */
+.nav-tour{
+  font-family: var(--mono); font-size:11px; font-weight:600;
+  letter-spacing:.16em; text-transform:lowercase;
+  color: var(--green-bright); padding: 6px 14px;
+  border: 1px solid var(--green-bright);
+  background: rgba(29,185,84,0.06);
+  transition: background .2s, color .2s, transform .2s var(--ease), box-shadow .3s;
+  cursor: pointer;
+}
+.nav-tour:hover {
+  background: var(--green-bright); color:#000;
+  transform: translateY(-1px);
+  box-shadow: 0 0 24px rgba(30,215,96,0.5);
+}
+body.is-touring .nav-tour {
+  background: var(--decade-accent); color: #000;
+  border-color: var(--decade-accent);
+  animation: tourPulse 1.4s ease-in-out infinite;
+}
+@keyframes tourPulse {
+  0%, 100% { box-shadow: 0 0 0 rgba(30,215,96,0); }
+  50%      { box-shadow: 0 0 30px rgba(30,215,96,0.55); }
+}
+
+/* Body during tour · subtle scan-line vibe */
+body.is-touring::before{
+  content:""; position: fixed; inset:0; pointer-events:none; z-index: 150;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(29,185,84,0.04) 50%, rgba(0,0,0,0) 100%);
+  background-size: 100% 8px;
+  animation: scanline 12s linear infinite;
+  mix-blend-mode: overlay;
+}
+@keyframes scanline { 0% { background-position: 0 0; } 100% { background-position: 0 100vh; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .decade-overlay { transition: none; }
+  .decade-overlay .do-pre,
+  .decade-overlay .do-decade,
+  .decade-overlay .do-post { animation: none; opacity: 1; transform: none; }
+  body.is-touring::before { display: none; }
+  .nav-tour { animation: none; }
+}
+
 /* TOPBAR */
 .topbar{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;padding:16px 28px;gap:24px;background:linear-gradient(180deg,rgba(10,10,10,0.9),transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
 .brand{display:flex;align-items:center;gap:10px;margin-right:auto}
