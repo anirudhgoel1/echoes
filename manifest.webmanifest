@@ -1,0 +1,16 @@
+{
+  "name": "Echoes — most-streamed song of every year, 1960 to 2026",
+  "short_name": "Echoes",
+  "description": "What song defined your year? Type your birth year. 67 years, 74 billion streams, one page.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#0a0a0a",
+  "orientation": "portrait-primary",
+  "icons": [
+    { "src": "/icon-192.png",      "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png",      "sizes": "512x512", "type": "image/png" },
+    { "src": "/icon-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

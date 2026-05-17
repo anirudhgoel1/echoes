@@ -1,0 +1,18 @@
+{
+  "name": "echoes",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ECHOES — the most-streamed song of every year, 1960 to 2026.",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "tail": "wrangler tail",
+    "icons": "node render-icons.mjs",
+    "og": "node render-og.mjs",
+    "build": "npm run og && npm run icons"
+  },
+  "devDependencies": {
+    "sharp": "^0.34.5",
+    "wrangler": "^4.92.0"
+  }
+}

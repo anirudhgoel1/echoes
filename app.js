@@ -207,9 +207,29 @@
       }
     };
 
+    // ===== streams count-up animation (Instagram-ready wow factor) =====
+    let streamsRaf = 0;
+    const animateStreams = (toVal) => {
+      if (!htStreams) return;
+      cancelAnimationFrame(streamsRaf);
+      if (!toVal) { htStreams.textContent = "live"; return; }
+      const dur = 900;
+      const start = performance.now();
+      const fromVal = 0;
+      const step = (now) => {
+        const t = Math.min(1, (now - start) / dur);
+        const eased = 1 - Math.pow(1 - t, 3);
+        const v = fromVal + (toVal - fromVal) * eased;
+        htStreams.textContent = `${fmtB(v)} streams`;
+        if (t < 1) streamsRaf = requestAnimationFrame(step);
+        else htStreams.textContent = `${fmtB(toVal)} streams`;
+      };
+      streamsRaf = requestAnimationFrame(step);
+    };
+
     const setText = (song, year) => {
       if (htYear) htYear.textContent = year;
-      if (htStreams) htStreams.textContent = song.streams ? `${fmtB(song.streams)} streams` : "live";
+      animateStreams(song.streams || 0);
       if (!htTitle || !htArtist) return;
       htTitle.classList.add("flip"); htArtist.classList.add("flip");
       cancelAnimationFrame(flipRaf);
@@ -220,9 +240,50 @@
       }, 110));
     };
 
+    // ===== decade transition overlay (the Instagram money shot) =====
+    // When crossing a decade boundary, briefly flash a full-screen "Welcome to the 90s"
+    // banner with cinematic typography.
+    const decadeNames = {
+      1960: "the sixties", 1970: "the seventies", 1980: "the eighties",
+      1990: "the nineties", 2000: "the two-thousands", 2010: "the twenty-tens",
+      2020: "the twenty-twenties",
+    };
+    const decadeOf = (y) => Math.floor(y / 10) * 10;
+    let lastDecade = decadeOf(1995);
+
+    // Inject overlay element once
+    let decadeOverlay = document.getElementById("decadeOverlay");
+    if (!decadeOverlay) {
+      decadeOverlay = document.createElement("div");
+      decadeOverlay.id = "decadeOverlay";
+      decadeOverlay.className = "decade-overlay";
+      decadeOverlay.innerHTML = `<span class="do-pre">welcome to</span><span class="do-decade"></span><span class="do-post">&#x25BC; keep scrolling</span>`;
+      document.body.appendChild(decadeOverlay);
+    }
+    const doDecade = decadeOverlay.querySelector(".do-decade");
+    let decadeFadeT = null;
+    const flashDecade = (decade) => {
+      if (!doDecade) return;
+      doDecade.textContent = decadeNames[decade] || `the ${decade}s`;
+      decadeOverlay.classList.add("show");
+      clearTimeout(decadeFadeT);
+      decadeFadeT = setTimeout(() => decadeOverlay.classList.remove("show"), 1500);
+    };
+
+    // ===== per-decade color theming (subtle accent shift) =====
+    const decadeAccent = {
+      1960: "#d4a13d", 1970: "#cf7e2b", 1980: "#e84e9a", 1990: "#1ed760",
+      2000: "#b164e8", 2010: "#ff6ec7", 2020: "#1ed760",
+    };
+    const applyDecadeTheme = (year) => {
+      const acc = decadeAccent[decadeOf(year)] || "#1ed760";
+      document.documentElement.style.setProperty("--decade-accent", acc);
+    };
+
     const setYear = (year, force = false) => {
       year = Math.max(Y_MIN, Math.min(Y_MAX, Math.round(year)));
       if (year === curYear && !force) return;
+      const prevYear = curYear;
       curYear = year;
       const pct = ((year - Y_MIN) / Y_RANGE) * 100;
       stHandle.style.left = `${pct}%`;
@@ -230,12 +291,69 @@
       const song = SONGS.find(s => s.year === year);
       if (!song) return;
       setArtwork(song);
+      applyDecadeTheme(year);
+      // Decade-cross detection · only fire when actually crossing a decade boundary
+      const newDecade = decadeOf(year);
+      if (newDecade !== lastDecade && Math.abs(year - prevYear) <= 5) {
+        flashDecade(newDecade);
+        lastDecade = newDecade;
+      } else if (newDecade !== lastDecade) {
+        // big jump (e.g. clicking a year far away) · still flash but skip the count-up
+        lastDecade = newDecade;
+      }
       // Throttle text flip so rapid scrubbing doesn't thrash
       if (year !== lastTextYear) { lastTextYear = year; setText(song, year); }
     };
 
     // Initial position
     setYear(1995, true);
+
+    // ===== AUTO-TOUR MODE · perfect for Instagram screen-records =====
+    // Click the ▶ button (or press T) to auto-cycle through 1960 → 2026 over ~24s.
+    // Each year holds for 350ms, decade-cross years pause longer for the overlay.
+    let tourTimer = null;
+    let tourYear = Y_MIN;
+    const stopTour = () => {
+      clearTimeout(tourTimer);
+      tourTimer = null;
+      document.body.classList.remove("is-touring");
+      const btn = document.getElementById("tourBtn");
+      if (btn) btn.textContent = "▶ tour";
+    };
+    const tickTour = () => {
+      if (tourYear > Y_MAX) { stopTour(); return; }
+      setYear(tourYear);
+      const isDecadeCross = tourYear % 10 === 0 && tourYear > Y_MIN;
+      const delay = isDecadeCross ? 1700 : 320;
+      tourYear += 1;
+      tourTimer = setTimeout(tickTour, delay);
+    };
+    const startTour = () => {
+      if (tourTimer) return stopTour();
+      tourYear = Y_MIN;
+      lastDecade = decadeOf(Y_MIN); // reset so first decade flashes
+      document.body.classList.add("is-touring");
+      const btn = document.getElementById("tourBtn");
+      if (btn) btn.textContent = "■ stop";
+      tickTour();
+    };
+    // Inject the tour button into the topbar nav
+    const navEl = document.querySelector(".nav");
+    if (navEl && !document.getElementById("tourBtn")) {
+      const tourA = document.createElement("a");
+      tourA.id = "tourBtn";
+      tourA.href = "#";
+      tourA.className = "nav-tour";
+      tourA.textContent = "▶ tour";
+      tourA.title = "Auto-cycle through 67 years · Instagram-ready";
+      tourA.addEventListener("click", (e) => { e.preventDefault(); startTour(); });
+      navEl.appendChild(tourA);
+    }
+    window.addEventListener("keydown", (e) => {
+      if (e.target.matches("input, textarea")) return;
+      if (e.key === "t" || e.key === "T") startTour();
+      if (e.key === "Escape" && tourTimer) stopTour();
+    });
 
     const yearFromEvent = (clientX) => {
       const r = scrubTrack.getBoundingClientRect();

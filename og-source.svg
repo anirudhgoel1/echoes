@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <!-- background gradient · deep green to black -->
+  <defs>
+    <radialGradient id="bg" cx="30%" cy="40%" r="80%">
+      <stop offset="0%" stop-color="#0d3a1f"/>
+      <stop offset="50%" stop-color="#06150c"/>
+      <stop offset="100%" stop-color="#000"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1db954" stop-opacity="0.35"/>
+      <stop offset="60%" stop-color="#1db954" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#1db954" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="vinyl" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a1a1a"/>
+      <stop offset="100%" stop-color="#000"/>
+    </linearGradient>
+    <linearGradient id="title" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f0ece4"/>
+      <stop offset="100%" stop-color="#c4d6cc"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow)" opacity="0.9"/>
+
+  <!-- subtle grid lines -->
+  <g stroke="#1db954" stroke-opacity="0.05" stroke-width="1">
+    <line x1="0" y1="158" x2="1200" y2="158"/>
+    <line x1="0" y1="316" x2="1200" y2="316"/>
+    <line x1="0" y1="474" x2="1200" y2="474"/>
+    <line x1="300" y1="0" x2="300" y2="630"/>
+    <line x1="600" y1="0" x2="600" y2="630"/>
+    <line x1="900" y1="0" x2="900" y2="630"/>
+  </g>
+
+  <!-- vinyl record on the right -->
+  <g transform="translate(960, 315)">
+    <!-- outer record -->
+    <circle r="240" fill="url(#vinyl)" stroke="#1db954" stroke-opacity="0.25" stroke-width="1"/>
+    <!-- grooves -->
+    <g fill="none" stroke="#1db954" stroke-opacity="0.07">
+      <circle r="220" stroke-width="0.5"/>
+      <circle r="200" stroke-width="0.5"/>
+      <circle r="180" stroke-width="0.5"/>
+      <circle r="160" stroke-width="0.5"/>
+      <circle r="140" stroke-width="0.5"/>
+      <circle r="120" stroke-width="0.5"/>
+      <circle r="100" stroke-width="0.5"/>
+    </g>
+    <!-- label -->
+    <circle r="86" fill="#1db954"/>
+    <circle r="86" fill="url(#vinyl)" opacity="0.18"/>
+    <!-- center hole -->
+    <circle r="8" fill="#0a0a0a"/>
+    <!-- light reflection -->
+    <ellipse cx="-60" cy="-90" rx="40" ry="120" fill="#fff" opacity="0.04" transform="rotate(-30)"/>
+  </g>
+
+  <!-- big title · italic serif -->
+  <text x="100" y="320" font-family="Fraunces, Georgia, serif" font-style="italic" font-weight="500" font-size="200" fill="url(#title)" letter-spacing="-8">Echoes</text>
+
+  <!-- subtitle · mono caps -->
+  <text x="105" y="380" font-family="JetBrains Mono, monospace" font-weight="500" font-size="22" fill="#1ed760" letter-spacing="6">67 YEARS &#xb7; 74 BILLION STREAMS</text>
+
+  <!-- tagline · italic small -->
+  <text x="105" y="430" font-family="Fraunces, Georgia, serif" font-style="italic" font-weight="300" font-size="34" fill="#a8b9b0">What song defined your year?</text>
+
+  <!-- attribution bottom right -->
+  <text x="1100" y="600" font-family="JetBrains Mono, monospace" font-size="14" fill="#5a6b62" text-anchor="end" letter-spacing="3">ECHOES.ANIRUDHGOEL.XYZ</text>
+
+  <!-- pulsing live dot -->
+  <circle cx="120" cy="487" r="6" fill="#1ed760"/>
+  <text x="138" y="492" font-family="JetBrains Mono, monospace" font-size="14" fill="#1ed760" letter-spacing="3">A LIVE LISTENING ROOM</text>
+</svg>
