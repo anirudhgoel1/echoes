@@ -14,6 +14,46 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200..900;1,9..144,200..900&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" />
 <link rel="stylesheet" href="styles.css" />
+
+<link rel="canonical" href="https://echoes.anirudhgoel.xyz/" />
+<link rel="author" href="https://anirudhgoel.xyz/" />
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://echoes.anirudhgoel.xyz/#website",
+      "url": "https://echoes.anirudhgoel.xyz/",
+      "name": "Echoes",
+      "description": "The most-streamed song of every year, 1960 to 2026. A listening room for songs that lived in our ears together.",
+      "inLanguage": "en",
+      "author": { "@id": "https://anirudhgoel.xyz/#person" },
+      "publisher": { "@id": "https://anirudhgoel.xyz/#person" }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://anirudhgoel.xyz/#person",
+      "name": "Anirudh Goel",
+      "alternateName": "anirudh.nocode",
+      "url": "https://anirudhgoel.xyz/",
+      "jobTitle": "Product Designer & No-Code Builder",
+      "sameAs": [
+        "https://anirudhgoel.xyz/",
+        "https://f1.anirudhgoel.xyz/",
+        "https://pavilion.anirudhgoel.xyz/",
+        "https://echoes.anirudhgoel.xyz/",
+        "https://www.linkedin.com/in/anirudhgoel1/",
+        "https://www.instagram.com/anirudh.nocode/",
+        "https://x.com/heyanirudhgoel",
+        "https://ko-fi.com/anirudhgoel",
+        "https://github.com/anirudhgoyal55"
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -149,6 +189,43 @@
       <span class="foot-sep">or</span>
       <a class="foot-kofi" href="https://ko-fi.com/anirudhgoel" target="_blank" rel="noopener">Ko-fi (international)</a>
     </div>
+
+    <div class="foot-thanks-row">
+      <button type="button" class="foot-thanks-btn" id="foot-thanks-btn">
+        <span class="ftb-mark">+</span>
+        <span class="ftb-label">send a thanks · one tap</span>
+      </button>
+      <button type="button" class="foot-push-btn" id="foot-push-btn">
+        <span class="ftb-mark">◔</span>
+        <span class="ftb-label">notify me · new yearly entries</span>
+      </button>
+      <span class="foot-thanks-state" id="foot-thanks-state" aria-live="polite"></span>
+    </div>
+
+    <div class="foot-related">
+      <div class="foot-related-label">More from the same lab</div>
+      <div class="foot-related-grid">
+        <a class="foot-related-card" href="https://f1.anirudhgoel.xyz/" rel="me author">
+          <span class="frc-tag">F1 2026</span>
+          <span class="frc-name">The Pit Wall</span>
+          <span class="frc-blurb">Auto-updating F1 dashboard. Standings, weather, tire strategy.</span>
+          <span class="frc-cta">f1.anirudhgoel.xyz →</span>
+        </a>
+        <a class="foot-related-card" href="https://pavilion.anirudhgoel.xyz/" rel="me author">
+          <span class="frc-tag">IPL 2026</span>
+          <span class="frc-name">The Pavilion</span>
+          <span class="frc-blurb">A two-person press box for cricket. Live scores, fixtures, squads.</span>
+          <span class="frc-cta">pavilion.anirudhgoel.xyz →</span>
+        </a>
+        <a class="foot-related-card" href="https://anirudhgoel.xyz/" rel="me author">
+          <span class="frc-tag">Portfolio</span>
+          <span class="frc-name">anirudhgoel.xyz</span>
+          <span class="frc-blurb">Product, design, and the rest of what I'm making this year.</span>
+          <span class="frc-cta">anirudhgoel.xyz →</span>
+        </a>
+      </div>
+    </div>
+
     <div class="foot-bottom">
       <span>echoes / 2026 / made in india / not affiliated with spotify</span>
     </div>
@@ -167,5 +244,210 @@
 
 <script src="data.js"></script>
 <script src="app.js"></script>
+
+<!-- WIP-coding central thanks gateway · 30-second popup · push opt-in -->
+<style>
+.thanks-pop{position:fixed;left:50%;bottom:24px;transform:translate(-50%,28px);width:min(420px,92vw);background:#0e1311;color:#eaf2ee;border:1px solid rgba(29,185,84,.35);border-radius:14px;padding:18px 18px 14px;box-shadow:0 18px 60px rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:opacity .28s ease,transform .28s ease;z-index:9999;font-family:Inter,system-ui,sans-serif}
+.thanks-pop.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.thanks-pop.fading{opacity:0;transform:translate(-50%,28px)}
+.thanks-pop .tp-close{position:absolute;top:8px;right:10px;background:transparent;border:0;color:#7d8c86;font-size:18px;cursor:pointer}
+.thanks-pop .tp-eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#1db954;margin-bottom:6px}
+.thanks-pop .tp-title{font:600 18px/1.25 Fraunces,serif;margin:0 0 6px}
+.thanks-pop .tp-title em{font-style:italic;color:#1db954}
+.thanks-pop .tp-body{font-size:13.5px;line-height:1.5;color:#b8c8c2;margin:0 0 10px}
+.thanks-pop .tp-msg{width:100%;box-sizing:border-box;background:#0a0e0c;border:1px solid rgba(255,255,255,.08);color:#eaf2ee;border-radius:8px;padding:8px 10px;font:13px Inter,sans-serif;resize:none;margin-bottom:10px}
+.thanks-pop .tp-msg:focus{outline:none;border-color:#1db954}
+.thanks-pop .tp-actions{display:flex;gap:8px;margin-bottom:6px}
+.thanks-pop .tp-btn{flex:1;background:#161c1a;border:1px solid rgba(255,255,255,.1);color:#eaf2ee;padding:9px 12px;border-radius:8px;font:600 12.5px Inter,sans-serif;cursor:pointer;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;letter-spacing:.02em}
+.thanks-pop .tp-btn:hover{border-color:#1db954}
+.thanks-pop .tp-btn.is-primary{background:#1db954;color:#06120c;border-color:#1db954}
+.thanks-pop .tp-skip{background:transparent;border:0;color:#6d7c76;font-size:11.5px;cursor:pointer;padding:6px 0 0;display:block;margin:0 auto;letter-spacing:.02em}
+.thanks-pop .tp-done{display:none;font-size:12.5px;color:#1db954;text-align:center;margin-top:4px}
+.thanks-pop.is-done .tp-done{display:block}
+.thanks-pop.is-done .tp-msg,.thanks-pop.is-done .tp-actions,.thanks-pop.is-done .tp-skip{display:none}
+
+.foot-thanks-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;margin:18px 0 6px}
+.foot-thanks-btn,.foot-push-btn{background:#0e1311;border:1px solid rgba(29,185,84,.35);color:#eaf2ee;padding:8px 14px;border-radius:999px;font:500 12.5px Inter,sans-serif;cursor:pointer;display:inline-flex;align-items:center;gap:8px;letter-spacing:.02em}
+.foot-thanks-btn:hover,.foot-push-btn:hover{border-color:#1db954;color:#1db954}
+.foot-thanks-btn:disabled,.foot-push-btn:disabled{opacity:.55;cursor:default}
+.foot-thanks-btn .ftb-mark,.foot-push-btn .ftb-mark{color:#1db954;font-weight:700}
+.foot-thanks-state{font-size:12px;color:#7d8c86;letter-spacing:.02em}
+.foot-thanks-state.is-ok{color:#1db954}
+.foot-thanks-state.is-error{color:#ff6b6b}
+
+.foot-related{margin:28px auto 12px;max-width:980px;padding:0 16px}
+.foot-related-label{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#7d8c86;text-align:center;margin-bottom:14px}
+.foot-related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.foot-related-card{background:#0e1311;border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:14px 16px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:6px;transition:border-color .18s ease,transform .18s ease}
+.foot-related-card:hover{border-color:#1db954;transform:translateY(-2px)}
+.foot-related-card .frc-tag{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#1db954}
+.foot-related-card .frc-name{font:600 16px/1.2 Fraunces,serif;color:#eaf2ee}
+.foot-related-card .frc-blurb{font-size:12.5px;line-height:1.45;color:#9aaaa4}
+.foot-related-card .frc-cta{font-size:11.5px;color:#7d8c86;margin-top:4px}
+</style>
+
+<div class="thanks-pop" id="thanks-pop" role="dialog" aria-labelledby="tp-title" aria-hidden="true">
+  <button type="button" class="tp-close" id="tp-close" aria-label="dismiss">×</button>
+  <div class="tp-eyebrow">a small ask</div>
+  <h3 class="tp-title" id="tp-title">Enjoying <em>Echoes?</em></h3>
+  <p class="tp-body">No ads, no signups, no data leaving your device. One tap and a kind word, if you'd like.</p>
+  <textarea class="tp-msg" id="tp-msg" placeholder="leave a note for Anirudh (optional · 280 chars)" rows="2" maxlength="280" aria-label="optional message"></textarea>
+  <div class="tp-actions">
+    <button type="button" class="tp-btn" id="tp-thanks">send a thanks</button>
+    <a class="tp-btn is-primary" id="tp-coffee" href="https://ko-fi.com/anirudhgoel" target="_blank" rel="noopener noreferrer">buy a coffee ›</a>
+  </div>
+  <button type="button" class="tp-skip" id="tp-skip">maybe later</button>
+  <div class="tp-done" id="tp-done">received · pinged Anirudh on Discord just now · <em>thank you</em></div>
+</div>
+
+<script>
+(function () {
+  const SENT_KEY       = 'echoes.v1.thanksSentAt';
+  const DISMISS_KEY    = 'echoes.v1.thanksDismissedAt';
+  const PUSH_KEY       = 'echoes.v1.pushSubscribedAt';
+  const POPUP_DELAY_MS = 30 * 1000;
+  const COOLDOWN_MS    = 7 * 24 * 3600 * 1000;
+  const GATEWAY_URL    = 'https://f1.anirudhgoel.xyz/api/thanks';
+  const PUSH_SUB_URL   = 'https://f1.anirudhgoel.xyz/api/push/subscribe';
+  const VAPID_PUBLIC   = 'BG1sUUkmT2u-r3okvCqf0cjefKfsV6c04bKPXiu9t0Mnu1ypabsOtq8H2sOPK859aFksCBZOexrgre28gfiIFc8';
+
+  const $ = (id) => document.getElementById(id);
+  const alreadyThanked = () => !!localStorage.getItem(SENT_KEY);
+  const cooledDown = () => {
+    const t = Number(localStorage.getItem(DISMISS_KEY) || 0);
+    return t && (Date.now() - t) < COOLDOWN_MS;
+  };
+
+  async function sendThanks(message) {
+    try {
+      const r = await fetch(GATEWAY_URL, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          project: 'echoes',
+          message: (message || '').trim().slice(0, 280),
+        }),
+      });
+      return r.ok;
+    } catch { return false; }
+  }
+
+  function urlBase64ToUint8Array(b64) {
+    const padding = '='.repeat((4 - b64.length % 4) % 4);
+    const s = (b64 + padding).replace(/-/g, '+').replace(/_/g, '/');
+    const raw = atob(s);
+    const arr = new Uint8Array(raw.length);
+    for (let i = 0; i < raw.length; i++) arr[i] = raw.charCodeAt(i);
+    return arr;
+  }
+  async function subscribePush() {
+    if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+      return { ok: false, reason: 'browser does not support push' };
+    }
+    try {
+      const reg = await navigator.serviceWorker.ready;
+      const perm = await Notification.requestPermission();
+      if (perm !== 'granted') return { ok: false, reason: 'permission denied' };
+      let sub = await reg.pushManager.getSubscription();
+      if (!sub) {
+        sub = await reg.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC),
+        });
+      }
+      await fetch(PUSH_SUB_URL, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ project: 'echoes', subscription: sub }),
+      });
+      localStorage.setItem(PUSH_KEY, String(Date.now()));
+      return { ok: true };
+    } catch (e) { return { ok: false, reason: String(e && e.message || e) }; }
+  }
+
+  function wirePopup() {
+    const pop = $('thanks-pop');
+    if (!pop) return;
+    const sendBtn = $('tp-thanks');
+    const msg = $('tp-msg');
+    function show() {
+      if (alreadyThanked() || cooledDown()) return;
+      pop.classList.add('show');
+      pop.setAttribute('aria-hidden', 'false');
+    }
+    function hide(reason) {
+      pop.classList.add('fading');
+      setTimeout(() => { pop.classList.remove('show', 'fading'); pop.setAttribute('aria-hidden', 'true'); }, 380);
+      if (reason === 'skip' || reason === 'close') localStorage.setItem(DISMISS_KEY, String(Date.now()));
+    }
+    $('tp-close').addEventListener('click', () => hide('close'));
+    $('tp-skip').addEventListener('click', () => hide('skip'));
+    sendBtn.addEventListener('click', async () => {
+      sendBtn.disabled = true;
+      sendBtn.textContent = 'sending…';
+      await sendThanks(msg.value);
+      localStorage.setItem(SENT_KEY, String(Date.now()));
+      pop.classList.add('is-done');
+      setTimeout(() => hide('done'), 2800);
+    });
+    setTimeout(show, POPUP_DELAY_MS);
+  }
+
+  function wireFooterButtons() {
+    const tBtn = $('foot-thanks-btn');
+    const pBtn = $('foot-push-btn');
+    const state = $('foot-thanks-state');
+    if (tBtn) {
+      if (alreadyThanked()) {
+        tBtn.disabled = true;
+        tBtn.querySelector('.ftb-label').textContent = "you've already thanked";
+        state.classList.add('is-ok'); state.textContent = 'thank you · noted';
+      } else {
+        tBtn.addEventListener('click', async () => {
+          tBtn.disabled = true;
+          state.textContent = 'sending…';
+          state.classList.remove('is-ok', 'is-error');
+          const ok = await sendThanks('');
+          if (ok) {
+            localStorage.setItem(SENT_KEY, String(Date.now()));
+            tBtn.querySelector('.ftb-label').textContent = "you've already thanked";
+            state.classList.add('is-ok'); state.textContent = 'received · pinged on Discord';
+          } else {
+            state.classList.add('is-error'); state.textContent = 'failed · try again';
+            setTimeout(() => { tBtn.disabled = false; state.textContent = ''; state.classList.remove('is-error'); }, 2400);
+          }
+        });
+      }
+    }
+    if (pBtn) {
+      const lbl = pBtn.querySelector('.ftb-label');
+      if (localStorage.getItem(PUSH_KEY)) {
+        pBtn.disabled = true;
+        if (lbl) lbl.textContent = "you're subscribed";
+      } else {
+        pBtn.addEventListener('click', async () => {
+          pBtn.disabled = true;
+          if (lbl) lbl.textContent = 'asking permission…';
+          const r = await subscribePush();
+          if (r.ok) { if (lbl) lbl.textContent = "you're subscribed"; }
+          else {
+            if (lbl) lbl.textContent = r.reason || 'failed · try again';
+            setTimeout(() => { if (lbl) lbl.textContent = 'notify me · new yearly entries'; pBtn.disabled = false; }, 2400);
+          }
+        });
+      }
+    }
+  }
+
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(() => {}));
+  }
+
+  function init() { wirePopup(); wireFooterButtons(); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+
 </body>
 </html>
