@@ -1,11 +1,37 @@
-// Echoes service worker.
-// Strict passthrough fetch + push handlers wired to the central
-// f1.anirudhgoel.xyz gateway via the shared VAPID keypair.
+// Echoes service worker · NO fetch handler · push-only.
+//
+// v2 (2026-05-18): removed the buggy fetch handler that intercepted
+// every request and returned 504 on any failure — including transient
+// cross-origin album-cover fetches from is1-ssl.mzstatic.com. The
+// .catch swallowed real errors and presented them as 504s, which made
+// album covers fail to render even when the upstream CDN was healthy.
+//
+// The new SW only handles push notifications. The browser handles
+// every other request natively (faster, safer, no spurious 504s).
 
-const VERSION = 'echoes-sw-v1-2026-05-16';
+const VERSION = 'echoes-sw-v2-2026-05-18-no-fetch-trap';
 
-self.addEventListener('install', () => self.skipWaiting());
-self.addEventListener('activate', (event) => event.waitUntil(self.clients.claim()));
+self.addEventListener('install', (event) => {
+  event.waitUntil((async () => {
+    // Evict any caches v1 may have created (it didn't, but defensive)
+    const keys = await caches.keys();
+    await Promise.all(keys.map((k) => caches.delete(k)));
+  })());
+  self.skipWaiting();
+});
+
+self.addEventListener('activate', (event) => {
+  event.waitUntil((async () => {
+    await self.clients.claim();
+    // Force-reload every controlled tab so the user immediately sees
+    // the healed page (album covers loading) rather than waiting for
+    // a manual refresh.
+    const tabs = await self.clients.matchAll({ type: 'window' });
+    for (const tab of tabs) {
+      try { tab.navigate(tab.url); } catch { /* cross-origin / detached */ }
+    }
+  })());
+});
 
 self.addEventListener('push', (event) => {
   let data = {};
@@ -25,7 +51,7 @@ self.addEventListener('push', (event) => {
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
   const url = (event.notification.data && event.notification.data.url) || '/';
-  event.waitUntil(self.clients.matchAll({ type: 'window' }).then(all => {
+  event.waitUntil(self.clients.matchAll({ type: 'window' }).then((all) => {
     for (const c of all) {
       if (c.url.includes(self.location.origin)) { c.focus(); c.navigate(url); return; }
     }
@@ -33,6 +59,4 @@ self.addEventListener('notificationclick', (event) => {
   }));
 });
 
-self.addEventListener('fetch', (event) => {
-  event.respondWith(fetch(event.request).catch(() => new Response('', { status: 504, statusText: 'offline' })));
-});
+// NO fetch handler. See file header for why.
