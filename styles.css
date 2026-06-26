@@ -453,3 +453,20 @@ body.is-touring::before{
   .yrow-genre{display:none}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important}}
+
+/* ============================================================
+   Emil polish · 2026-06-26
+   - precise transitions instead of `transition:all`
+   - press feedback (subtle scale) on every pressable control
+   - reveal cover enters from scale(.9)+opacity, never scale(0)
+   - song-title cross-fade uses the strong ease-out curve
+   ============================================================ */
+.sf-input{transition:border-color .2s,background .2s,box-shadow .2s}
+.reveal-close,.modal-close,.splay-nav button,.ctrl{transition:border-color .2s,color .2s,transform .15s var(--ease)}
+.modal-action{transition:border-color .2s,color .2s,background .2s,transform .15s var(--ease)}
+.nav-random:active{transform:rotate(180deg) scale(.92)}
+.reveal-close:active,.modal-close:active{transform:scale(.94)}
+.splay-nav button:active:not(:disabled),.ctrl:active{transform:scale(.96)}
+.ht-title,.ht-artist{transition-timing-function:var(--ease)}
+.reveal-cover{transform:scale(.9);opacity:0;transition:transform .8s var(--ease),opacity .5s ease}
+.reveal.active .reveal-cover{transform:scale(1);opacity:1}
