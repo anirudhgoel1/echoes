@@ -74,20 +74,6 @@
     });
   }
 
-  // ===== STAT COUNTERS in hero =====
-  $$(".hs-num").forEach((el, i) => {
-    const target = parseInt(el.dataset.count, 10) || 0;
-    const start = performance.now() + 1700 + i * 120;
-    const dur = 1100;
-    const step = now => {
-      if (now < start) { requestAnimationFrame(step); return; }
-      const t = Math.min(1, (now - start) / dur);
-      el.textContent = Math.round(target * easeOut(t));
-      if (t < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  });
-
   // ===== BIRTH YEAR + CINEMATIC REVEAL =====
   const birthInput = $("#birthYear"), birthGo = $("#birthYearGo");
   const reveal = $("#reveal"), revealCover = $("#revealCover"), revealInfo = $("#revealInfo"), revealActions = $("#revealActions"), revealClose = $("#revealClose");

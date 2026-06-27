@@ -470,3 +470,21 @@ body.is-touring::before{
 .ht-title,.ht-artist{transition-timing-function:var(--ease)}
 .reveal-cover{transform:scale(.9);opacity:0;transition:transform .8s var(--ease),opacity .5s ease}
 .reveal.active .reveal-cover{transform:scale(1);opacity:1}
+
+/* ============================================================
+   Mobile / touch decades fixes · 2026-06-27
+   On touch, the decade card :hover transform (scale 1.05 + translateZ)
+   was firing on the FIRST tap: it ballooned the card (reads as "going
+   out of viewport") AND swallowed the click (the double-tap). Fix:
+   neutralise hover on touch, move press feedback to :active. Narrow
+   screens also flatten the 3D fan as a backstop.
+   ============================================================ */
+@media (max-width:768px){
+  .rail{perspective:none}
+  .dcard{--ry:0deg !important}
+  .dcard:hover{transform:translateY(-4px) scale(1.02)}
+}
+@media (hover:none){
+  .dcard:hover,.ycard:hover{transform:none}
+  .dcard:active,.ycard:active{transform:scale(.96)}
+}
