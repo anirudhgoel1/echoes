@@ -488,3 +488,21 @@ body.is-touring::before{
   .dcard:hover,.ycard:hover{transform:none}
   .dcard:active,.ycard:active{transform:scale(.96)}
 }
+
+/* ============================================================
+   Mobile decade-overlay + card-label typography · 2026-06-27
+   The long post-2000 names ("the two-thousands", "the twenty-tens",
+   "the twenty-twenties") overflowed the phone in the full-screen decade
+   flash. Constrain width + allow wrapping (so overflow is impossible)
+   and shrink the type on small screens. Also shrink the decade-card
+   label so "seventies"/"eighties"/"nineties" stop clipping in the
+   narrow 2-col grid.
+   ============================================================ */
+.decade-overlay{overflow:hidden}
+.do-decade{max-width:90vw;overflow-wrap:break-word;text-align:center}
+@media (max-width:768px){
+  .do-decade{font-size:clamp(44px,13vw,88px);line-height:.95}
+  .do-pre{letter-spacing:.3em}
+  .do-post{letter-spacing:.26em}
+  .dcard-label{font-size:clamp(22px,6.5vw,32px)}
+}
